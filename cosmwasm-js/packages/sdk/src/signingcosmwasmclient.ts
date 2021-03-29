@@ -466,4 +466,29 @@ export class SigningCosmWasmClient extends CosmWasmClient {
 
     return this.postTx(signedTx);
   }
+
+  public async sendTokensOffline(
+    recipientAddress: string,
+    transferAmount: readonly Coin[],
+    chainId: string,
+    accountNumber: number,
+    sequence: number,
+    memo = "",
+    fee: StdFee = this.fees.send,
+  ): Promise<any> {
+    const sendMsg: MsgSend = {
+      type: "cosmos-sdk/MsgSend",
+      value: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        from_address: this.senderAddress,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        to_address: recipientAddress,
+        amount: transferAmount,
+      },
+    };
+
+    const signedTx = await this.signAdapter([sendMsg], fee, chainId, memo, accountNumber, sequence);
+
+    return signedTx;
+  }
 }

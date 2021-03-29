@@ -115,4 +115,13 @@ export declare class SigningCosmWasmClient extends CosmWasmClient {
     memo?: string,
     fee?: StdFee,
   ): Promise<PostTxResult>;
+  sendTokensOffline(
+    recipientAddress: string,
+    transferAmount: readonly Coin[],
+    chainId: string,
+    accountNumber: number,
+    sequence: number,
+    memo?: string,
+    fee?: StdFee,
+  ): Promise<any>;
 }
